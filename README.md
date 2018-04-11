@@ -1,1 +1,2 @@
 # twitter-easy-lib
+エンドポイントurl,メソッド,オプション,戻り値の値を指定でき一連の動作をまとめたものですCOOKIEとなっている箇所はoauth_token等なのでtwitteroauthcookie等と組み合わせ使用できます
