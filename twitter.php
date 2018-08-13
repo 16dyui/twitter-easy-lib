@@ -40,24 +40,16 @@
   $params_c['oauth_signature'] = $signature;
   // パラメータの連想配列を[キー=値,キー=値,...]の文字列に変換する
   $header_params = http_build_query($params_c, '', ',');
-  // リクエスト用のコンテキスト
-  $context = array(
-    'http' => array(
-      'method' => $request_method,
-      'header' => array('Authorization: OAuth '.$header_params)
-    )
-  );
   // パラメータがある場合、URLの末尾に追加
   if($params_a) $request_url .= '?'.http_build_query($params_a);
   // cURLを使ってリクエスト
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_URL, $request_url);
   curl_setopt($curl, CURLOPT_HEADER, true);
-  curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $context['http']['method']);
+  curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request_method);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($curl, CURLOPT_HTTPHEADER, $context['http']['header']);
-  curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, ['Authorization: OAuth '.$header_params]);
   $res1 = curl_exec($curl);
   $res2 = curl_getinfo($curl);
   curl_close($curl);
